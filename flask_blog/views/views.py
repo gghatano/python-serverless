@@ -17,7 +17,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('logout')
+@app.route('/logout')
 def logout():
     logout_user()
     flash('ログアウトしました')
