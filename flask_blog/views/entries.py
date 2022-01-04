@@ -1,15 +1,18 @@
 from flask import request, redirect, url_for, render_template, flash, session
 from flask_blog import app
 from flask_blog.models.entries import Entry
+from flask_login import login_required
 from datetime import datetime
 
 @app.route('/')
+@login_required
 def show_entries():
   entries = Entry.scan()
   entries= sorted(entries, key = lambda x: x.id, reverse = True)
   return render_template('entries/index.html', entries=entries)
 
 @app.route('/entries', methods = ['POST'])
+@login_required
 def add_entry():
   # 記事の作成処理を実装
   entry = Entry(
@@ -23,23 +26,27 @@ def add_entry():
 
 
 @app.route('/entries/new', methods = ['GET'])
+@login_required
 def new_entry():
   # 記事の入力フォームを表示する
   return render_template("entries/new.html")
 
 @app.route('/entries/<int:id>', methods = ['GET'])
+@login_required
 def show_entry(id):
   # 記事を取得する
   entry = Entry.get(id)
   return render_template('entries/show.html', entry = entry)
 
 @app.route('/entries/<int:id>/edit', methods = ['GET'])
+@login_required
 def edit_entry(id):
   # 記事の編集フォームを表示する
   entry = Entry.get(id)
   return render_template('entries/edit.html', entry = entry)
 
 @app.route('/entries/<int:id>/update', methods = ['POST'])
+@login_required
 def update_entry(id):
   # 記事の更新処理を実装する
   entry = Entry.get(id)
@@ -50,6 +57,7 @@ def update_entry(id):
   return redirect(url_for('show_entries'))
 
 @app.route('/entries/<int:id>/delete', methods = ['POST'])
+@login_required
 def delete_entry(id):
   # 記事の削除処理を実装する
   entry = Entry.get(id)
