@@ -3,7 +3,7 @@ from flask_blog import app
 from flask_login import login_user, logout_user
 from flask_blog.models.users import User
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods = ['GET', "POST"])
 def login():
     if request.method == "POST":
         if request.form['username'] != app.config['USERNAME']:
